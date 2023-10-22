@@ -75,7 +75,7 @@ function doubleArray(arr) {
  *    [] => []
  */
 function getArrayOfPositives(arr) {
-  return arr.filter((item) => item > 0);
+  return arr.filter((elem) => elem > 0);
 }
 
 /**
@@ -90,7 +90,7 @@ function getArrayOfPositives(arr) {
  *    [ 'cat, 'dog', 'raccoon' ] => [ 'cat', 'dog', 'raccoon' ]
  */
 function getArrayOfStrings(arr) {
-  return arr.filter((item) => typeof item === 'string');
+  return arr.filter((elem) => typeof elem === 'string');
 }
 
 /**
@@ -122,7 +122,7 @@ function removeFalsyValues(arr) {
  *    [ 'a', 'b', 'c', 'd', 'e', 'f', 'g' ]  => [ 'A', 'B', 'C', 'D', 'E', 'F', 'G' ]
  */
 function getUpperCaseStrings(arr) {
-  return arr.map((item) => item.toUpperCase());
+  return arr.map((elem) => elem.toUpperCase());
 }
 
 
@@ -137,7 +137,7 @@ function getUpperCaseStrings(arr) {
  *    [ 'angular', 'react', 'ember' ] => [ 7, 5, 5 ]
  */
 function getStringsLength(arr) {
-  return arr.map((item) => item.length);
+  return arr.map((elem) => elem.length);
 }
 
 /**
@@ -512,7 +512,12 @@ function getIntervalArray(start, end) {
  *   [ 1, 1, 2, 2, 3, 3, 4, 4] => [ 1, 2, 3, 4]
  */
 function distinct(arr) {
-  return Array.from(new Set(arr));
+  return arr.reduce((uniqueArr, current) => {
+    if (!uniqueArr.includes(current)) {
+      uniqueArr.push(current);
+    }
+    return uniqueArr;
+  }, []);
 }
 
 /**
@@ -586,7 +591,10 @@ function selectMany(arr, childrenSelector) {
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
 function getElementByIndexes(arr, indexes) {
-  return indexes.reduce((a, b) => a[b], arr);
+  return indexes.reduce(
+    (newValue, currentIndex) => newValue[currentIndex],
+    arr,
+  );
 }
 
 
@@ -609,14 +617,12 @@ function getElementByIndexes(arr, indexes) {
  *
  */
 function swapHeadAndTail(arr) {
-  const num = arr.length;
-  if (num > 1) {
-    const begin = arr.splice(0, Math.floor(num / 2));
-    const end = arr.splice(-Math.floor(num / 2));
-    arr.push(...begin);
-    arr.unshift(...end);
+  const head = arr.slice(0, Math.floor(arr.length / 2));
+  const tail = arr.slice(Math.ceil(arr.length / 2));
+  if (arr.length % 2) {
+    tail.push(arr[Math.floor(arr.length / 2)]);
   }
-  return arr;
+  return tail.concat(head);
 }
 
 
